@@ -11,6 +11,7 @@
 <script>
 // Code to upload to Bangle.js
 var BANGLE_CODE = `
+Puck.accelOn();
 Puck.on('accel',function(a) {
   var d = [
     "A",
