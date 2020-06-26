@@ -11,12 +11,12 @@
 <script>
 // Code to upload to Bangle.js
 var BANGLE_CODE = `
-Bangle.on('accel',function(a) {
+Puck.on('accel',function(a) {
   var d = [
     "A",
-    Math.round(a.x*100),
-    Math.round(a.y*100),
-    Math.round(a.z*100)
+    Math.round(a.acc.x*100),
+    Math.round(a.acc.y*100),
+    Math.round(a.acc.z*100)
     ];
   Bluetooth.println(d.join(","));
 })
