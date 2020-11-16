@@ -1,6 +1,6 @@
 <html>
  <head>
-  <title>Bangle.js Accelerometer streaming</title>
+  <title>Bangle.js HR streaming</title>
  </head>
  <body>
 <script src="https://www.puck-js.com/puck.js"></script>
@@ -11,16 +11,12 @@
 <script>
 // Code to upload to Bangle.js
 var BANGLE_CODE = `
-Puck.accelOn();
-Puck.on('accel',function(a) {
-  var d = [
-    "A",
-    Math.round(a.acc.x*100),
-    Math.round(a.acc.y*100),
-    Math.round(a.acc.z*100)
-    ];
-  Bluetooth.println(d.join(","));
-})
+Bangle.setHRMPower(1);
+Bangle.on('HRM',function(hrm) {
+ var d = ['H', hrm.bpm];
+ Bluetooth.printld(d.join(","));
+}
+});
 `;
 
 // When we click the connect button...
@@ -64,17 +60,13 @@ document.getElementById("btnConnect").addEventListener("click", function() {
 function onLine(line) {
   console.log("RECEIVED:"+line);
   var d = line.split(",");
-  if (d.length==4 && d[0]=="A") {
+  if (d.length==2 && d[0]=="H") {
     // we have an accelerometer reading
     var accel = {
       x : parseInt(d[1]),
-      y : parseInt(d[2]),
-      z : parseInt(d[3]),
     };    
     // Update bar positions
     setBarPos("barX", accel.x);
-    setBarPos("barY", accel.y);
-    setBarPos("barZ", accel.z);
   }
 }
 // Set the position of each bar
